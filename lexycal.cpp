@@ -1,31 +1,31 @@
-#include <iostream>
-#include "lexycal.h"
-#include <regex>
+#include <fstream>
+#include "scanner.h"
 #include <string>
 
 using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    FILE *input_file;
-    char *current = (char *)malloc(sizeof(char));
-    current[0] = 0;
+    std::ifstream file;
+    string current_line;
     Scanner *scanner = new Scanner();
 
     // Open Text File
-    input_file = fopen(argv[1], "r");
+    file.open(argv[1]);
 
     // Check File
-    if (input_file == NULL)
+    if (!file)
     {
         cout << "[ERROR] Can't open file." << endl;
         return 1;
     }
 
-    do
+    /* Parse Text */
+    for (int i = 0; i < 1; i++)
     {
-        scanner->feed(current);
-    } while (fscanf(input_file, "%c", current) != EOF);
+        getline(file, current_line);
+        scanner->feed(current_line.c_str());
+    }
 
     return 0;
 }
