@@ -6,24 +6,34 @@ using namespace std;
 
 int main(int argc, char const *argv[])
 {
-    std::ifstream file;
+    ifstream input_file;
+    ofstream output_file;
     string current_line;
     Scanner *scanner = new Scanner();
 
+    /* Check flags */
+    if (argc > 2)
+    {
+        if (strcmp(argv[2], "--debug") == 0)
+        {
+            freopen("debug.lexyc", "w", stdout);
+        }
+    }
+
     // Open Text File
-    file.open(argv[1]);
+    input_file.open(argv[1]);
 
     // Check File
-    if (!file)
+    if (!input_file)
     {
         cout << "[ERROR] Can't open file." << endl;
         return 1;
     }
 
     /* Parse Text */
-    for (int i = 0; i < 1; i++)
+    while (input_file.peek() != EOF)
     {
-        getline(file, current_line);
+        getline(input_file, current_line);
         scanner->feed(current_line.c_str());
     }
 

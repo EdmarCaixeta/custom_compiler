@@ -20,11 +20,13 @@ bool isseparator(char c)
 {
     string ptr;
     ptr += c;
-    std::regex str_expr("\\(|\\)|\\[|\\]|\\{|\\}|,|.|;");
+    std::regex str_expr("\\(|\\)|\\[|\\]|\\{|\\}|,|\\.|\\;");
     if (std::regex_match(ptr.c_str(), str_expr))
     {
+        ptr.clear();
         return true;
     }
+    ptr.clear();
     return false;
 }
 
@@ -139,7 +141,7 @@ void Scanner::feed(string c)
             break;
 
         case 4:
-            /* operator */
+            /* separator */
             cout << "< separador, " << c[pos] << " >";
             pos++;
             current_state = 0;
@@ -190,9 +192,9 @@ void Scanner::feed(string c)
                 /* end of line */
                 if (c[pos] == '\n')
                     return;
-                
+
                 /* imediate case */
-                else if(c[pos] == '*' and c[pos+1] == '/')
+                else if (c[pos] == '*' and c[pos + 1] == '/')
                     break;
                 pos++;
             } while (c[pos] != '*' and c[pos + 1] != '/');
@@ -201,7 +203,7 @@ void Scanner::feed(string c)
             break;
 
         default:
-            cout << "[ERROR] Incorrect word ";
+            cout << "[ERROR] Unexpected character: " << c[pos] << endl;
             pos++;
             current_state = 0;
             break;
