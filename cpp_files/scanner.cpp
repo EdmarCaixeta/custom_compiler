@@ -34,10 +34,17 @@ Scanner::Scanner()
 {
     this->current_state = 0;
     this->buffer;
+    this->tokenList = new TokenList();
+}
+
+TokenList *Scanner::getTokenList()
+{
+    return this->tokenList;
 }
 
 void Scanner::feed(string c)
 {
+    Token *tk;
     int pos = 0;
     c.push_back('\n');
 
@@ -109,7 +116,8 @@ void Scanner::feed(string c)
             /* se outra coisa, então acaba id */
             else
             {
-                cout << "< id, " << buffer << " >";
+                tk = new Token(ID, buffer);
+                tokenList->append(tk);
                 buffer.clear();
                 current_state = 0;
             }
@@ -127,7 +135,8 @@ void Scanner::feed(string c)
 
             else
             {
-                cout << "< num, " << buffer << " >";
+                tk = new Token(INTEGER_LITERAL, buffer);
+                tokenList->append(tk);
                 buffer.clear();
                 current_state = 0;
             }
@@ -135,14 +144,16 @@ void Scanner::feed(string c)
 
         case 3:
             /* operator */
-            cout << "< operator, " << c[pos] << " >";
+            tk = new Token(OP, buffer);
+            tokenList->append(tk);
             pos++;
             current_state = 0;
             break;
 
         case 4:
             /* separator */
-            cout << "< separador, " << c[pos] << " >";
+            tk = new Token(SEP, buffer);
+            tokenList->append(tk);
             pos++;
             current_state = 0;
             break;
@@ -209,4 +220,5 @@ void Scanner::feed(string c)
             break;
         }
     }
+    tokenList->print();
 }

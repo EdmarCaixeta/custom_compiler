@@ -30,12 +30,16 @@ int main(int argc, char const *argv[])
         return 1;
     }
 
-    /* Parse Text */
+    /* Parse Text and Build Linked List of Tokens */
+    /* First Part: Lexycal Analysis */
     while (input_file.peek() != EOF)
     {
         getline(input_file, current_line);
         scanner->feed(current_line.c_str());
     }
+
+    /* Parse List of valid Tokens */
+    /* Second Part: Syntatic Analysis */
 
     return 0;
 }
