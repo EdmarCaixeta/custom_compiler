@@ -144,16 +144,72 @@ void Scanner::feed(string c)
 
         case 3:
             /* operator */
-            tk = new Token(OP, buffer);
-            tokenList->append(tk);
-            pos++;
+            buffer.push_back(c[pos]);
+
+            /* >= */
+            if (c[pos] == '>' and c[pos + 1] == '=')
+            {
+                pos++;
+                buffer.push_back(c[pos]);
+                tk = new Token(OP, buffer);
+                tokenList->append(tk);
+                buffer.clear();
+                pos++;
+            }
+
+            /* <= */
+            else if (c[pos] == '<' and c[pos + 1] == '=')
+            {
+                pos++;
+                buffer.push_back(c[pos]);
+
+                tk = new Token(OP, buffer);
+                tokenList->append(tk);
+                buffer.clear();
+                pos++;
+            }
+
+            /* != */
+            else if (c[pos] == '!' and c[pos + 1] == '=')
+            {
+                pos++;
+                buffer.push_back(c[pos]);
+
+                tk = new Token(OP, buffer);
+                tokenList->append(tk);
+                buffer.clear();
+                pos++;
+            }
+
+            /* == */
+            else if (c[pos] == '=' and c[pos + 1] == '=')
+            {
+                pos++;
+                buffer.push_back(c[pos]);
+
+                tk = new Token(OP, buffer);
+                tokenList->append(tk);
+                buffer.clear();
+                pos++;
+            }
+            
+            else
+            {
+                tk = new Token(OP, buffer);
+                tokenList->append(tk);
+                buffer.clear();
+                pos++;
+            }
+
             current_state = 0;
             break;
 
         case 4:
             /* separator */
+            buffer.push_back(c[pos]);
             tk = new Token(SEP, buffer);
             tokenList->append(tk);
+            buffer.clear();
             pos++;
             current_state = 0;
             break;
@@ -170,7 +226,8 @@ void Scanner::feed(string c)
             {
                 buffer.push_back(c[pos]);
                 pos++;
-                cout << "< literal, " << buffer << " >";
+                tk = new Token(STRING_LITERAL, buffer);
+                tokenList->append(tk);
                 buffer.clear();
                 current_state = 0;
             }
@@ -197,10 +254,11 @@ void Scanner::feed(string c)
             break;
 
         case 7:
+            /* Comment in section*/
             pos += 2;
             do
             {
-                /* end of line */
+                /* reached end of line, so stop */
                 if (c[pos] == '\n')
                     return;
 
@@ -220,5 +278,4 @@ void Scanner::feed(string c)
             break;
         }
     }
-    tokenList->print();
 }

@@ -10,6 +10,7 @@ int main(int argc, char const *argv[])
     ofstream output_file;
     string current_line;
     Scanner *scanner = new Scanner();
+    TokenList *token_list;
 
     /* Check flags */
     if (argc > 2)
@@ -40,6 +41,8 @@ int main(int argc, char const *argv[])
 
     /* Parse List of valid Tokens */
     /* Second Part: Syntatic Analysis */
+    token_list = scanner->getTokenList();
+    token_list->print();
 
     return 0;
 }
