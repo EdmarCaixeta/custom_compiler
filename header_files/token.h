@@ -4,9 +4,45 @@ enum TOKENS
 {
     ID,
     INTEGER_LITERAL,
-    OP,
-    SEP,
     STRING_LITERAL,
+    /* OPERATORS */
+    LESS_THAN,
+    LESS_EQUAL,
+    GREATER_THAN,
+    GREATER_EQUAL,
+    SUM,
+    SUBTRACTION,
+    MULTIPLY,
+    DIVIDE,
+    MOD,
+    EQUAL,
+    COMPARISON,
+    DIFFERENT,
+    /* SEPARATORS */
+    LEFT_PARENTHESES,
+    RIGHT_PARENTHESES,
+    LEFT_BRACKETS,
+    RIGHT_BRACKETS,
+    LEFT_BRACES,
+    RIGHT_BRACES,
+    SEMI_COLON,
+    PERIOD,
+    COMMA,
+    /* RESERVED WORDS */
+    CLASS,
+    EXTENDS,
+    INT,
+    STRING,
+    BREAK,
+    PRINT,
+    READ,
+    RETURN,
+    SUPER,
+    IF,
+    ELSE,
+    FOR,
+    NEW,
+    CONSTRUCTOR
 };
 
 class Token
@@ -23,8 +59,8 @@ public:
     };
     void print()
     {
-        std::cout << std::endl
-                  << "<token: "
-                  << this->_token << " lexeme: " << this->_lexeme << ">" << std::endl;
+        std::cout
+            << "<token: "
+            << this->_token << " lexeme: " << this->_lexeme << ">" << std::endl;
     }
 };

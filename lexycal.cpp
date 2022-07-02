@@ -1,6 +1,7 @@
 #include <fstream>
 #include "scanner.h"
 #include <string>
+#include "header_files/parser.h"
 
 using namespace std;
 
@@ -9,8 +10,6 @@ int main(int argc, char const *argv[])
     ifstream input_file;
     ofstream output_file;
     string current_line;
-    Scanner *scanner = new Scanner();
-    TokenList *token_list;
 
     /* Check flags */
     if (argc > 2)
@@ -33,6 +32,8 @@ int main(int argc, char const *argv[])
 
     /* Parse Text and Build Linked List of Tokens */
     /* First Part: Lexycal Analysis */
+    Scanner *scanner = new Scanner();
+
     while (input_file.peek() != EOF)
     {
         getline(input_file, current_line);
@@ -41,8 +42,8 @@ int main(int argc, char const *argv[])
 
     /* Parse List of valid Tokens */
     /* Second Part: Syntatic Analysis */
-    token_list = scanner->getTokenList();
-    token_list->print();
-
+    TokenList *token_list = scanner->getTokenList();
+    Parser *parser = new Parser(token_list);
+    parser->print();
     return 0;
 }

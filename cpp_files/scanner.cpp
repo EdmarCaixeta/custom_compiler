@@ -1,4 +1,4 @@
-#include "scanner.h"
+#include "../header_files/scanner.h"
 
 using namespace std;
 
@@ -39,13 +39,14 @@ Scanner::Scanner()
 
 TokenList *Scanner::getTokenList()
 {
-    return this->tokenList;
+    return this->tokenList->use();
 }
 
 void Scanner::feed(string c)
 {
     Token *tk;
     int pos = 0;
+    int enum_type;
     c.push_back('\n');
 
     /* Percorre a linha fornecida */
@@ -116,7 +117,79 @@ void Scanner::feed(string c)
             /* se outra coisa, então acaba id */
             else
             {
-                tk = new Token(ID, buffer);
+                enum_type = ID;
+
+                if (buffer == "class")
+                {
+                    enum_type = CLASS;
+                }
+
+                else if (buffer == "extends")
+                {
+                    enum_type = EXTENDS;
+                }
+
+                else if (buffer == "int")
+                {
+                    enum_type = INT;
+                }
+
+                else if (buffer == "string")
+                {
+                    enum_type = STRING;
+                }
+
+                else if (buffer == "break")
+                {
+                    enum_type = BREAK;
+                }
+
+                else if (buffer == "print")
+                {
+                    enum_type = PRINT;
+                }
+
+                else if (buffer == "read")
+                {
+                    enum_type = READ;
+                }
+
+                else if (buffer == "return")
+                {
+                    enum_type = READ;
+                }
+
+                else if (buffer == "super")
+                {
+                    enum_type = SUPER;
+                }
+
+                else if (buffer == "if")
+                {
+                    enum_type = IF;
+                }
+
+                else if (buffer == "else")
+                {
+                    enum_type = ELSE;
+                }
+
+                else if (buffer == "for")
+                {
+                    enum_type = FOR;
+                }
+
+                else if (buffer == "new")
+                {
+                    enum_type = NEW;
+                }
+
+                else if (buffer == "constructor")
+                {
+                    enum_type = CONSTRUCTOR;
+                }
+
+                tk = new Token(enum_type, buffer);
                 tokenList->append(tk);
                 buffer.clear();
                 current_state = 0;
@@ -151,10 +224,7 @@ void Scanner::feed(string c)
             {
                 pos++;
                 buffer.push_back(c[pos]);
-                tk = new Token(OP, buffer);
-                tokenList->append(tk);
-                buffer.clear();
-                pos++;
+                enum_type = GREATER_EQUAL;
             }
 
             /* <= */
@@ -162,11 +232,7 @@ void Scanner::feed(string c)
             {
                 pos++;
                 buffer.push_back(c[pos]);
-
-                tk = new Token(OP, buffer);
-                tokenList->append(tk);
-                buffer.clear();
-                pos++;
+                enum_type = LESS_EQUAL;
             }
 
             /* != */
@@ -174,11 +240,7 @@ void Scanner::feed(string c)
             {
                 pos++;
                 buffer.push_back(c[pos]);
-
-                tk = new Token(OP, buffer);
-                tokenList->append(tk);
-                buffer.clear();
-                pos++;
+                enum_type = DIFFERENT;
             }
 
             /* == */
@@ -186,28 +248,98 @@ void Scanner::feed(string c)
             {
                 pos++;
                 buffer.push_back(c[pos]);
+                enum_type = COMPARISON;
+            }
 
-                tk = new Token(OP, buffer);
-                tokenList->append(tk);
-                buffer.clear();
-                pos++;
-            }
-            
-            else
+            else if (c[pos] == '=')
             {
-                tk = new Token(OP, buffer);
-                tokenList->append(tk);
-                buffer.clear();
-                pos++;
+                enum_type = EQUAL;
             }
+
+            else if (c[pos] == '+')
+            {
+                enum_type = SUM;
+            }
+
+            else if (c[pos] == '-')
+            {
+                enum_type = SUBTRACTION;
+            }
+
+            else if (c[pos] == '*')
+            {
+                enum_type = MULTIPLY;
+            }
+
+            else if (c[pos] == '/')
+            {
+                enum_type = DIVIDE;
+            }
+
+            else if (c[pos] == '%')
+            {
+                enum_type = MOD;
+            }
+
+            tk = new Token(enum_type, buffer);
+            tokenList->append(tk);
+            buffer.clear();
+            pos++;
 
             current_state = 0;
             break;
 
         case 4:
             /* separator */
+
             buffer.push_back(c[pos]);
-            tk = new Token(SEP, buffer);
+
+            if (c[pos] == '(')
+            {
+                enum_type = LEFT_PARENTHESES;
+            }
+
+            else if (c[pos] == ')')
+            {
+                enum_type = RIGHT_PARENTHESES;
+            }
+
+            else if (c[pos] == '[')
+            {
+                enum_type = LEFT_BRACES;
+            }
+
+            else if (c[pos] == ']')
+            {
+                enum_type = RIGHT_BRACES;
+            }
+
+            else if (c[pos] == '{')
+            {
+                enum_type = LEFT_BRACKETS;
+            }
+
+            else if (c[pos] == '}')
+            {
+                enum_type = RIGHT_BRACKETS;
+            }
+
+            else if (c[pos] == ',')
+            {
+                enum_type = COMMA;
+            }
+
+            else if (c[pos] == '.')
+            {
+                enum_type = PERIOD;
+            }
+
+            else if (c[pos] == ';')
+            {
+                enum_type = SEMI_COLON;
+            }
+
+            tk = new Token(enum_type, buffer);
             tokenList->append(tk);
             buffer.clear();
             pos++;
@@ -215,7 +347,7 @@ void Scanner::feed(string c)
             break;
 
         case 5:
-            /* literal */
+            /* string literal */
             buffer.push_back(c[pos]);
             pos++;
 

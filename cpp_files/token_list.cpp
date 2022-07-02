@@ -6,17 +6,29 @@ TokenList::TokenList(Token *head)
     this->_tail = this->_head;
 }
 
+TokenList *TokenList::use()
+{
+    this->_reference_counter++;
+    return this;
+}
+
+void TokenList::dismiss()
+{
+    this->_reference_counter--;
+}
+
 TokenList::TokenList()
 {
     this->_head = nullptr;
     this->_tail = nullptr;
+    this->_reference_counter++;
 }
 
 void TokenList::append(Token *t)
 {
-    TokenNode *node = new TokenNode(t);
     if (this->_tail != nullptr)
     {
+        TokenNode *node = new TokenNode(t);
         this->_tail->setNext(node);
         this->_tail = node;
     }
@@ -35,4 +47,5 @@ void TokenList::print()
     {
         ptr->print();
     }
+    std::cout << "REFERENCE COUNTER: " << this->_reference_counter << std::endl;
 }
