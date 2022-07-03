@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
         }
     }
 
-    // Open Text File
+    /// Open Text File
     input_file.open(argv[1]);
 
     // Check File
@@ -44,6 +44,7 @@ int main(int argc, char const *argv[])
     /* Second Part: Syntatic Analysis */
     TokenList *token_list = scanner->getTokenList();
     Parser *parser = new Parser(token_list);
-    parser->print();
+    //parser->print();
+    parser->Program();
     return 0;
 }

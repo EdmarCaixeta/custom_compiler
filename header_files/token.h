@@ -5,6 +5,7 @@ enum TOKENS
     ID,
     INTEGER_LITERAL,
     STRING_LITERAL,
+    END_OF_FILE,
     /* OPERATORS */
     LESS_THAN,
     LESS_EQUAL,
@@ -57,6 +58,7 @@ public:
         this->_lexeme = lexeme;
         this->_token = token;
     };
+    int getToken() { return this->_token; };
     void print()
     {
         std::cout

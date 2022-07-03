@@ -22,21 +22,26 @@ public:
     void ClassBody();
     void VarDeclListOpt();
     void VarDeclList();
+    void VarDeclList_();
     void VarDecl();
     void VarDeclOpt();
     void Type();
     void ConstructDeclListOpt();
     void ConstructDeclList();
+    void ConstructDeclList_();
     void ConstructDecl();
     void MethodDeclListOpt();
     void MethodDeclList();
     void MethodDecl();
+    void MethodDeclList_();
     void MethodBody();
     void ParamListOpt();
     void ParamList();
+    void ParamList_();
     void Param();
     void StatementsOpt();
     void Statements();
+    void Statements_();
     void Statement();
     void AtribStat();
     void PrintStat();
@@ -57,6 +62,7 @@ public:
     void Factor();
     void ArgListOpt();
     void ArgList();
+    void ArgList_();
 };
 
 #endif

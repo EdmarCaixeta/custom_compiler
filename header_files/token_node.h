@@ -13,6 +13,15 @@ public:
     TokenNode *getNext() { return _next; };
     void print()
     {
-        _current->print();
+        if (_current == nullptr)
+        {
+            std::cout << "JOCA";
+        }
+        else
+        {
+
+            _current->print();
+        }
     }
+    int getTokenValue() { return this->_current->getToken(); };
 };
